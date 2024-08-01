@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function Card({ recipe }) {
-  const { image, name, tag, numberOfMinutes, id } = recipe;
+  const { thumbnail_url, name, topics, total_time_minutes, id } = recipe;
   const navigate = useNavigate();
   const navigateToRecipePage = () => {
     navigate(`/recipe/${id}`);
@@ -10,14 +10,14 @@ export default function Card({ recipe }) {
 
   return (
     <div className="card" onClick={navigateToRecipePage}>
-      <img src={image} alt="" />
+      <img src={thumbnail_url} alt="" />
       <div className="card-content">
         <h3>{name}</h3>
         <div className="card-info">
-          <div className="tag">
-            <p>{tag}</p>
-          </div>
-          <p className="time-text">{numberOfMinutes} mins</p>
+          <div className="tag">{topics[0].name && <p>{topics[0].name}</p>}</div>
+          {total_time_minutes && (
+            <p className="time-text">{total_time_minutes} mins</p>
+          )}
         </div>
       </div>
     </div>
