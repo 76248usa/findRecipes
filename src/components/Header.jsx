@@ -1,6 +1,14 @@
-import React from "react";
+import { useState } from "react";
+import useFetchRecipes from "../hooks/useFetchRecipes";
 
-function Header() {
+function Header({ handleSearch }) {
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const handleClick = () => {
+    handleSearch(searchTerm);
+    setSearchTerm("");
+  };
+
   return (
     <div>
       <header className="main_header">
@@ -14,8 +22,13 @@ function Header() {
             similique nisi.
           </p>
           <div className="header-input-container">
-            <input type="text" placeholder="Find a Recipe..." />
-            <button>Search...</button>
+            <input
+              type="text"
+              placeholder="Find a Recipe..."
+              onChange={(e) => setSearchTerm(e.target.value)}
+              value={searchTerm}
+            />
+            <button onClick={handleClick}>Search...</button>
           </div>
         </div>
         <div>

@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
 import axios from "axios";
+import { useState } from "react";
 
 const options = {
   method: "GET",
@@ -7,11 +7,10 @@ const options = {
   params: {
     from: "0",
     size: "20",
-    tags: "under_30_minutes",
   },
   headers: {
-    "x-rapidapi-key": "59d70297eemshefafa54c0ce051ep192df6jsn5c37f91c21fb",
-    "x-rapidapi-host": "tasty.p.rapidapi.com",
+    "X-RapidAPI-Key": "30b594a022mshc657030b09147dcp153ad1jsn8b9a863a5527",
+    "X-RapidAPI-Host": "tasty.p.rapidapi.com",
   },
 };
 
@@ -20,26 +19,25 @@ const useFetchRecipes = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    fetchRecipes();
-  }, []);
-
-  const fetchRecipes = async () => {
+  const fetchRecipes = async (searchTerm) => {
     setLoading(true);
-    setError(null);
     setRecipes(null);
+    setError(null);
     try {
-      const response = await axios.request(options);
+      const reqOptions = { ...options };
+      if (searchTerm) {
+        reqOptions.params.q = searchTerm;
+      }
+      const response = await axios.request(reqOptions);
       setRecipes(response.data.results);
-      //console.log(response.count);
       setLoading(false);
-    } catch (error) {
-      console.log(error);
-      setError(error.message);
+    } catch (err) {
+      setError(err.message);
       setLoading(false);
     }
   };
-  return [recipes, loading, error];
+
+  return [fetchRecipes, { data: recipes, loading, error }];
 };
 
 export default useFetchRecipes;
