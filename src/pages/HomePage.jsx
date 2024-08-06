@@ -8,7 +8,6 @@ import useFetchRecipes from "../hooks/useFetchRecipes";
 export default function HomePage() {
   const [fetchRecipes, { data, loading, error }] = useFetchRecipes();
   const [searchParams] = useSearchParams();
-
   useEffect(() => {
     fetchRecipes(searchParams.get("search"));
   }, []);
@@ -21,7 +20,6 @@ export default function HomePage() {
 
   return (
     <>
-      {/* <Header handleSearch={handleSearch} /> */}
       <Header handleSearch={handleSearch} />
       {loading && <Loading />}
       {data && <CardList recipes={data} />}
